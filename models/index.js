@@ -13,7 +13,7 @@ function setup(db, cb) {
 
 module.exports = function (cb) {
   if (connection) return cb(null, connection);
-  console.log("settings.database"+settings.database);
+ // console.log("settings.database"+settings.database);
   orm.connect(settings.database, function (err, db) {
     if (err) return cb(err);
 
