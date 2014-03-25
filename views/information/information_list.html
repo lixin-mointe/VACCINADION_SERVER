@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="utf-8">
+    <title>资讯</title>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.css' />
+  </head>
+  <body screen_capture_injected="true">
+    
+    
+    <form class="navbar-form navbar-left" role="search">
+    
+    <div class="panel panel-default">
+   		  <%=title%><p ID='msg'></p>
+   		   
+   	</div>
+   	
+	<div class="panel-heading">
+	<div class="row">
+  		<div class="col-lg-2">
+			<div class="input-group">
+			  <span class="input-group-addon">标题</span>
+			  <input type="text" id='query_title' value='' class="form-control" placeholder="标题">
+			</div>
+		</div>
+		<div class="col-lg-2">
+			<div class="input-group">
+			  <span class="input-group-addon">作者/来源</span>
+			  <input type="text" id='query_soures' value='' class="form-control" placeholder="作者/来源">
+			</div>
+		</div>
+		<div class="col-lg-2">
+			<div class="input-group">
+				<span class="input-group-addon">类型</span>
+				<select id='query_type' class="input-sm">
+					 <option value="1,2,3,4">全部</option>
+					  <option value="1">最新资讯</option>
+					  <option value="2">疫苗知识</option>
+					  <option value="3">常见问题</option>
+					  <option value="4">疫情报告</option>
+					</select>
+			    <!-- input type="text" id='query.type' class="form-control" placeholder="类型" 
+				 <div class="btn-group">
+				    <button id='query_type1' type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+				     		 最新资讯
+				      <span class="caret"></span>
+				    </button>
+				    <ul class="dropdown-menu">
+				    	<li><a href="#">最新资讯</a></li>
+				    	<li><a href="#">疫苗知识</a></li>
+				        <li><a href="#">常见问题</a></li>
+				        <li><a href="#">疫情报告</a></li>
+ 				        
+				    </ul>
+				    <select class="select optgroup">
+					  <option value="volvo">Volvo</option>
+					  <option value="saab">Saab</option>
+					  <option value="opel">Opel</option>
+					  <option value="audi">Audi</option>
+					</select>
+					
+				  </div>-->
+			</div>
+			
+		</div>
+		
+		<div class="col-lg-2">
+			<div class="input-group">
+			   <button id="c_select" type="button" class="btn btn-default  btn">查询</button>
+		
+			</div>
+		</div>
+	</div>
+
+   		   
+	</div>	    
+ 			<div  class="table-group">
+ 			 <table id='infoList' class="table table-bordered">
+ 				<tr id='infoRow' class="active">
+ 					<th id="ck" class="text-center"> 编辑</th>
+ 					<th id="title" class="text-center">标题</th>
+	 				<th id="soures" class="text-center">作者/来源</th>
+	 				<th id="type" class="text-center">类型</th>
+					<th id="level" class="text-center">级别</th>
+					<th id="pubilshed_date" class="text-center">发布时间</th>
+					<th id="introduction" class="text-center">简介</th>
+				</tr>
+				 
+				 <tr id='template' class="">
+				 	<th id="itemid" class="text-center"> 
+				 	 	 
+						<a href="#" id='modifyId'>
+							<span class="glyphicon glyphicon-pencil"> </span>
+						</a>
+						<a href="#" id='removeId'>
+							<span class="glyphicon glyphicon-remove"> </span>
+						</a>
+				 	 </th>
+ 					<td id="title" class="">标题</td>
+	 				<td id="soures" class="">作者/来源</td>
+	 				<td id="type" class="">类型</td>
+					<td id="level" class="">级别</td>
+					<td id="pubilshed_date" class="">发布时间</td>
+					<td id="introduction" class=""><abbr title=""></abbr></td>
+				</tr>
+				</table>
+             </div>
+	
+	 </div>
+	 <div  class="table-group">
+ 			 <table id='pages1' class="table table-bordered">
+ 			 </table>
+ 	 </div>
+	 <div class="pagination"><li id='pageTemplate' ><a href="#"></a></li>
+		   <ul id='pages' class="pagination">
+				 
+		   </ul> 
+	 </div>
+    </from>
+    
+ 
+ 
+<script src="/javascripts/jquery-2.1.0.js"></script>
+<script src="/javascripts/bootstrap.js"></script>
+<script src="/javascripts/information.js"></script>
+<script src="/javascripts/jquery.json-2.4.js"></script>
+<script >
+
+</script>
+</body>
+</html>
