@@ -18,7 +18,7 @@ module.exports = function (orm, db) {
 	  */
     type			: { type: 'number', required: true },
     level			: { type: 'number'},
-    pubilshed_date		: { type: 'date', required: true, time: true },
+    pubilshed_date	: { type: 'date', required: true, time: true },
     soures			: { type: 'text' },
     img				: { type: 'binary'},
     introduction	: { type: 'text' },
@@ -47,30 +47,27 @@ module.exports = function (orm, db) {
       serialize: function () {
     	 
         var comments;
-       // console.log("Information=========serialize");
         if (this.comments) {
-        //	console.log("Information=========serialize-----comments");
           comments = this.comments.map(function (c) { 
         	  return c.serialize();
           });
         } else {
-       // 	console.log("Information=========serialize-----comments  is null");
           comments = [];
         }
-
+        var introductionAttr = this.introduction;
         return {
           id        		: this.id,
           type				: this.type,
           level				: this.level,
-          pubilshed_date	: this.pubilshed_date,
           soures			: this.soures,
           img				: this.img,
           introduction		: this.introduction,
           title		    	: this.title,
           sort  			: this.sort,
           pubilshed_date	: this.pubilshed_date,
-        //pubilshed_date : moment(this.pubilshed_date).fromNow(),
-          comments  		: comments
+          //pubilshed_date : moment(this.pubilshed_date,"YYYY-MM-DD").fromNow(),
+          comments  		: comments,
+          introductionAttr  :this.introduction.substring(0,10)
         };
       }
     }
@@ -84,6 +81,6 @@ module.exports = function (orm, db) {
     *    { reverse: 'message_id' } comment表中的外键，
     * ；*/
  // console.log("6666666666"+this.id);
-  Information.hasMany('informationcomtent', db.models.informationcomtent, { style: String }, { reverse: 'main_id' })
+ // Information.hasMany('informationcomtent', db.models.informationcomtent, { style: String }, { reverse: 'main_id' })
 //  console.log("6666666666"+this.id);
 };

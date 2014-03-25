@@ -5,17 +5,20 @@ var models   = require('../models/');
 
 module.exports = function (app) {
   app.configure(function () {
+	//设置 ejs映射 html 文件
+	app.set('view engine', 'html');
+	app.engine('.html', require('ejs').__express);
+	
     app.use(express.static(path.join(settings.path, 'public')));
     app.use(express.logger({ format: 'dev' }));
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(function (req, res, next) {
       models(function (err, db) {
-        if (err) return next(err);
+    	  if (err) return next(err);
 
         req.models = db.models;
         req.db     = db;
-
         return next();
       });
     }),

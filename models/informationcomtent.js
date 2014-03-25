@@ -16,7 +16,7 @@ var moment = require('moment');
 module.exports = function (orm, db) {
   var Informationcomtent = db.define('informationcomtent', {
 	 
-	  information_id			: { type: 'number' },
+	  information_id	: { type: 'number' },
 	  sort  		    : { type: 'number'},
 	  comtent			: { type: 'text' },
 	  style 			: { type: 'text' },
@@ -44,7 +44,19 @@ module.exports = function (orm, db) {
     }
   });
  // console.log("  Icnformationcomtent================Icnformationcomtent" );
-  Informationcomtent.hasOne('information', db.models.information, { required: true, reverse: 'comments', autoFetch: true });
+  Informationcomtent.hasOne('information', db.models.information
+		  , { required: true, reverse: 'comments', autoFetch: true 
+	  ,field:'information_id',order:'information_id'}
+  
+  );
   //Icnformationcomtent.hasOne('information', db.models.information, { required: true, reverse: 'comments', autoFetch: true });
- 
-  };
+	/*
+	 * 注意： 
+	 * 1.hasOne和hasMany必须写在方法外面
+	 * 2.hasOne方法的第一个参数相当于student表的外键，
+	 * 		比如，我这里是“department”,orm2会自动生成一个department_id属性。
+	 * 		所以你的student表中的外键字段名必须命名为department_id。
+	 * 3.hasMany方法的第一个参数为“course”,orm2会自动生成一个student_course表名，
+	 * 		所以你的student和course的多对多关系表必须命名为student_course
+	 */
+};

@@ -15,7 +15,6 @@ var models      = require('./models/');
 
 module.exports.start = function (done) {
   var app = express();
-
   environment(app);
   routes(app);
 
