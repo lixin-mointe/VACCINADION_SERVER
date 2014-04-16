@@ -8,6 +8,7 @@ function setup(db, cb) {
   require('./comment')(orm, db);*/
   require('./information')(orm, db);
   require('./Informationcomtent')(orm, db);
+  require('./appversion')(orm, db);
  // db.close();
   return cb(null, db);
 }

@@ -2,14 +2,14 @@
 <html>
   <head>
   	<meta charset="utf-8">
-    <title>资讯</title>
-    <link rel='stylesheet' href='/stylesheets/bootstrap.css' />
+    <title><%=title%></title>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
   </head>
-  <body screen_capture_injected="true">
+ 
     
     
-    <form class="navbar-form navbar-left" role="search">
-    
+   
+     <body screen_capture_injected="true">
     <div class="panel panel-default">
    		  <%=title%><p ID='msg'></p>
    		   
@@ -32,76 +32,69 @@
 		<div class="col-lg-2">
 			<div class="input-group">
 				<span class="input-group-addon">类型</span>
-				<select id='query_type' class="input-sm">
+				<select id='query_type' class="form-control">
 					 <option value="1,2,3,4">全部</option>
 					  <option value="1">最新资讯</option>
 					  <option value="2">疫苗知识</option>
 					  <option value="3">常见问题</option>
 					  <option value="4">疫情报告</option>
-					</select>
-			    <!-- input type="text" id='query.type' class="form-control" placeholder="类型" 
-				 <div class="btn-group">
-				    <button id='query_type1' type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-				     		 最新资讯
-				      <span class="caret"></span>
-				    </button>
-				    <ul class="dropdown-menu">
-				    	<li><a href="#">最新资讯</a></li>
-				    	<li><a href="#">疫苗知识</a></li>
-				        <li><a href="#">常见问题</a></li>
-				        <li><a href="#">疫情报告</a></li>
- 				        
-				    </ul>
-				    <select class="select optgroup">
-					  <option value="volvo">Volvo</option>
-					  <option value="saab">Saab</option>
-					  <option value="opel">Opel</option>
-					  <option value="audi">Audi</option>
-					</select>
-					
-				  </div>-->
+				</select>
 			</div>
-			
 		</div>
-		
+		<div class="col-lg-2">
+			<div class="input-group">
+				<span class="input-group-addon">级别</span>
+				<select id='query_level' class="form-control">
+					 <option value="1,2">全部</option>
+					  <option value="1">显示</option>
+					  <option value="2">不显示</option>
+				</select>
+			</div>
+		</div>
 		<div class="col-lg-2">
 			<div class="input-group">
 			   <button id="c_select" type="button" class="btn btn-default  btn">查询</button>
-		
+			    
+			  <button  id="c_modify" class="btn btn-default" data-toggle="modal"  >
+				  创建
+				</button>
 			</div>
 		</div>
 	</div>
 
    		   
 	</div>	    
- 			<div  class="table-group">
- 			 <table id='infoList' class="table table-bordered">
+ 			<div  class="table-group"> 
+ 			 <table id='infoList' class="table table-bordered table-hover  table-condensed">
  				<tr id='infoRow' class="active">
- 					<th id="ck" class="text-center"> 编辑</th>
- 					<th id="title" class="text-center">标题</th>
-	 				<th id="soures" class="text-center">作者/来源</th>
-	 				<th id="type" class="text-center">类型</th>
-					<th id="level" class="text-center">级别</th>
-					<th id="pubilshed_date" class="text-center">发布时间</th>
-					<th id="introduction" class="text-center">简介</th>
+ 					<th id="ck" class="text-center" placeholder=".col-xs-2"> 编辑</th>
+ 					<th id="list_title" class="text-center">标题</th>
+	 				<th id="list_soures" class="text-center">作者/来源</th>
+	 				<th id="list_type" class="text-center">类型</th>
+					<th id="list_level" class="text-center">级别</th>
+					<th id="list_pubilshed_date" class="text-center">发布时间</th>
+					<th id="list_introduction" class="text-center">简介</th>
 				</tr>
-				 
+
 				 <tr id='template' class="">
 				 	<th id="itemid" class="text-center"> 
-				 	 	 
 						<a href="#" id='modifyId'>
-							<span class="glyphicon glyphicon-pencil"> </span>
+							<span class="glyphicon glyphicon-pencil">&nbsp;</span>
 						</a>
 						<a href="#" id='removeId'>
-							<span class="glyphicon glyphicon-remove"> </span>
+							<span class="glyphicon glyphicon-remove">&nbsp;</span>
 						</a>
+						<a href="#" id='viewsId'>
+							<span class="glyphicon glyphicon-search">&nbsp;</span>
+						</a>
+						 
 				 	 </th>
- 					<td id="title" class="">标题</td>
-	 				<td id="soures" class="">作者/来源</td>
-	 				<td id="type" class="">类型</td>
-					<td id="level" class="">级别</td>
-					<td id="pubilshed_date" class="">发布时间</td>
-					<td id="introduction" class=""><abbr title=""></abbr></td>
+ 					<td id="list_title" class="">标题</td>
+	 				<td id="list_soures" class="">作者/来源</td>
+	 				<td id="list_type" class="">类型</td>
+					<td id="list_level" class="">级别</td>
+					<td id="list_pubilshed_date" class="">发布时间</td>
+					<td id="list_introduction" class="text-overflow"><abbr title=""></abbr></td>
 				</tr>
 				</table>
              </div>
@@ -111,21 +104,178 @@
  			 <table id='pages1' class="table table-bordered">
  			 </table>
  	 </div>
+ 	 <!-- 分页标签模板 -->
 	 <div class="pagination"><li id='pageTemplate' ><a href="#"></a></li>
 		   <ul id='pages' class="pagination">
 				 
 		   </ul> 
 	 </div>
-    </from>
-    
- 
- 
-<script src="/javascripts/jquery-2.1.0.js"></script>
-<script src="/javascripts/bootstrap.js"></script>
-<script src="/javascripts/information.js"></script>
-<script src="/javascripts/jquery.json-2.4.js"></script>
-<script >
+	 	<!-- 显示明细 -->
+	 		 <div class="modal fade" id="viewsModal" tabindex="-1" role="dialog" aria-labelledby="viewsModalLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				        <h4 class="modal-title" id="viewsModalLabel"></h4>
+				      </div>
+				      <div class="modal-body"  id="viewsModalBody">  
+				        	 <div class="row">
+								  <div class="col-xs-4 col-md-10">
+								    	<label >标题:</label>
+									    <label id='viewsTitle' ></label>  
+								  </div>
+							 </div>
+							 <div class="row">
+								  <div class="col-xs-4 col-md-10">
+								    	 
+									    <label   >排序:</label>
+									    <label id='viewSort'></label>
+								  </div>
+								  
+							 </div>
+							 <div class="row">
+								  <div class="col-xs-2 col-md-10">
+								    	<label >作者/来源:</label>
+									    <label id='viewsSoures' ></label>
+								  </div>
+							</div> 
+							<div class="row">
+								  <div class="col-xs-2 col-md-10">
+									    <label   >发布时间:</label>
+									    <label id='viewsPubilshedDate'></label>
+								  </div>
+							</div> 
+							<div class="row">
+								  <div class="col-xs-4 col-md-10">
+								    	<label >类型:</label>
+									    <label id='viewsType' ></label> 
+								  </div>
+							 </div>
+							 <div class="row">
+								  <div class="col-xs-4 col-md-10">
+									    <label   >级别:</label>
+									    <label id='viewsLevel'></label>
+								  </div>
+							 </div>
+							 <div class="row">
+							 		<div class="col-xs-4 col-md-10">
+							 			<label >简介:</label>
+									    <label id='viewsIntroduction' ></label>
+									  </div>
+							 </div>
+							 <div class="row">
+							 		<div class="col-xs-4 col-md-10">
+							 		<label >图片:</label>
+						 			<img id='viewsImg' src="" alt="">
+						 			</div>
+						 	 </div>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				
+				<!-- 创建 -->
+				
+  				   <div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					  <div class="modal-dialog">
+					  	<form id='modifyFrom' action="" method="post"    enctype="multipart/form-data">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					        <h4 class="modal-title" id="modalLabel">编辑</h4>
+					      </div>
+					 
+					      <div class="modal-body" id='modalBody'>
+					        	<div class="input-group">
+								  <span class="input-group-addon">标题</span>
+								  
+								  <input type="text" id='title' name='title' value='' class="form-control" placeholder="标题">
+								  
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon">排序</span>
+								  <input type="tel" id='sort' name='sort' value='0'  min='1' max='999'  class="form-control" placeholder="排序">
+								   
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon">作者/来源</span>
+								  <input type="text" id='soures' name='soures' value='' class="form-control" placeholder="作者/来源">
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon">发布时间</span>
+								  <input type="date" id='pubilshed_date' name='pubilshed_date' value=""  class="form-control">
+ 								</div>
+							 
+								<div class="input-group">
+								   <span class="input-group-addon">类型</span>
+								   <select id='type' name='type' class="form-control">
+ 										  <option value="1">最新资讯</option>
+										  <option value="2">疫苗知识</option>
+										  <option value="3">常见问题</option>
+										  <option value="4">疫情报告</option>
+									</select>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon">广告区域是否显示</span>
+								  <select id='level' name='level' class="form-control">
+ 										  <option value="1">是</option>
+										  <option value="2">否</option>
+								  </select>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon">简介</span>
+								  <textarea   id='introduction' name='introduction' value=''  rows="3" class="form-control"  ></textarea>
+								</div>
+								 <div class="input-group">
+								  <span class="input-group-addon">图片</span>
+								  <img id='img' name='img' src="" alt="">
+								  		<input type="hidden" id='img_url' name='img_url' value='' >
+								  		<input type="hidden" id='id' name='id' value='' >
+								  </div>
+ 								<div class="input-group">
+								  <span class="input-group-addon">图片</span>
+								   
+								  <div id="choosebox" class="ellipsis">点击选择图片</div>
+								  		
+ 									    <input class="hide" type="file" id="file" name="img" />
+ 									    <button class="btn" id="upload">上传</button>
+									    <div class="form-actions">
+ 									      <span id="imgerr"></span>
+									      <img class="hide" id="imgload" height="14px" width="14px" src="/images/loading.gif">
+									    </div>
+								 </div>
+ 								</div> 
+					      </div>
+					      <div class="modal-footer">
+					      	<div id='createMsg' class="alert alert-warning alert-dismissable">
+ 							  <strong>Warning!</strong> 
+							</div>
+					        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					        <button type="button" class="btn btn-primary" id='c_submit'>保存</button>
+					      </div>
+					    </div><!-- /.modal-content -->
+					    </form> 
+					  </div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+				
+    		
+  	
 
+<script src="/javascripts/jquery-2.1.0.js"></script>
+<script src="/javascripts/jquery.json-2.4.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+<script src="/javascripts/information.js"></script>
+<script src="/javascripts/Global.js"></script>
+<script src="javascripts/ajaxform/ajaxform.js"></script>
+<script src="/javascripts/upfile.js"></script>
+ 
+    
+    
+    
+<script >
 </script>
-</body>
+</body> 
 </html>

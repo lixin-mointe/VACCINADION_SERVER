@@ -2,7 +2,7 @@ var path     = require('path');
 var express  = require('express');
 var settings = require('./settings');
 var models   = require('../models/');
-
+var  partials = require('express-partials');
 module.exports = function (app) {
   app.configure(function () {
 	//设置 ejs映射 html 文件
@@ -11,7 +11,11 @@ module.exports = function (app) {
 	
     app.use(express.static(path.join(settings.path, 'public')));
     app.use(express.logger({ format: 'dev' }));
-    app.use(express.bodyParser());
+    //app.use(express.bodyParser());
+    app.use(partials());
+   /* console.log("```````__dirname:"+__dirname);
+    console.log("当前执行的工作目录,",process.cwd());*/
+    app.use(express.bodyParser({uploadDir:  process.cwd()+'/public/images/tmp' ,keepExtensions: true}));
     app.use(express.methodOverride());
     app.use(function (req, res, next) {
       models(function (err, db) {

@@ -20,7 +20,7 @@ module.exports = function (orm, db) {
     level			: { type: 'number'},
     pubilshed_date	: { type: 'date', required: true, time: true },
     soures			: { type: 'text' },
-    img				: { type: 'binary'},
+    img_url			: { type: 'text'},
     introduction	: { type: 'text' },
     title		    : { type: 'text' },
     sort  		    : { type: 'number'}
@@ -35,18 +35,49 @@ module.exports = function (orm, db) {
     },
     validations: {
     	title: [
-        orm.enforce.ranges.length(1, undefined, "must be atleast 1 letter long"),
-        orm.enforce.ranges.length(undefined, 96, "cannot be longer than 96 letters")
+        orm.enforce.ranges.length(1, undefined, "标题	    必须填写"),
+        orm.enforce.ranges.length(undefined, 12, "标题不能超过12个字符")
       ],
       introduction: [
-        orm.enforce.ranges.length(1, undefined, "must be atleast 1 letter long"),
-        orm.enforce.ranges.length(undefined, 32768, "cannot be longer than 1024 letters")
-      ]
+        orm.enforce.ranges.length(1, undefined, "简介    必须填写"),
+        orm.enforce.ranges.length(undefined, 64, "简介不能超过64个字符")
+      ] ,
+      sort: [
+        orm.enforce.ranges.number(0, undefined, "排序    请填写0~999的数字"),
+        orm.enforce.ranges.number(undefined, 999, "排序    请填写0~999的数字")
+      ]  
+      
     },
     methods: {
       serialize: function () {
     	 
         var comments;
+        var typeVal;
+        switch (this.type)
+		  {
+		  case 1:
+			  typeVal="最新资讯";
+		    break;
+		  case 2:
+			  typeVal="疫苗知识";
+		    break;
+		  case 3:
+			  typeVal="常见问题";
+		    break;
+		  case 4:
+			  typeVal="疫情报告";
+		    break;
+		  }
+        var levelVal;
+        switch (this.level)
+		  {
+		  case 1:
+			  levelVal="是";
+		    break;
+		  case 2:
+			  levelVal="否";
+		    break;
+		  }
         if (this.comments) {
           comments = this.comments.map(function (c) { 
         	  return c.serialize();
@@ -54,20 +85,23 @@ module.exports = function (orm, db) {
         } else {
           comments = [];
         }
-        var introductionAttr = this.introduction;
+        var introductionAttr ='';
+        
         return {
           id        		: this.id,
           type				: this.type,
           level				: this.level,
           soures			: this.soures,
-          img				: this.img,
+          img_url			: this.img_url,
           introduction		: this.introduction,
           title		    	: this.title,
           sort  			: this.sort,
           pubilshed_date	: this.pubilshed_date,
           //pubilshed_date : moment(this.pubilshed_date,"YYYY-MM-DD").fromNow(),
           comments  		: comments,
-          introductionAttr  :this.introduction.substring(0,10)
+          introductionAttr  :this.introduction.substring(0,10),
+          typeVal			:typeVal,
+          levelVal			:levelVal
         };
       }
     }

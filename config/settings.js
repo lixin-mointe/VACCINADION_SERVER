@@ -11,7 +11,11 @@ var settings = {
 	    user     : "root",
 	    password : "mointe",
 	    timezone : "zh"
-  }
+  },
+  tmproot		:'/public/temp', //上传临时目录
+  imgroot 		:'/public/img', //图片存储目录
+  log 			:'/public/error.log'//程序错误日志，记录
+
 };
 
 module.exports = settings;
