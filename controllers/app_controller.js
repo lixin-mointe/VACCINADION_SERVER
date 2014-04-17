@@ -30,7 +30,7 @@ module.exports = {
 					 
 					
 				});
-		//console.log(11111111111);
+		
 		
 	 
 	} 

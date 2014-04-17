@@ -38,14 +38,14 @@ http.createServer(function(req, res){
 		//console.log( JSON.stringify(data));	
 	};
 	function sendJson(){
-		 console.log("sendJson");
+		// console.log("sendJson");
 		 res.end(JSON.stringify(data)); 
 	};
 	function getComtent(id){
 		var itemSql="select * from VACCINADION_INFO_COMTENT where MAIN_ID="+id;
 		conn.query(itemSql, function (err1, results) {
 		    if (err1) { 
-		    	console.log(err1);
+		    	//console.log(err1);
 		    	callback(err1);  
 			}
 		  //  console.log("item.ID---"+item.ID);

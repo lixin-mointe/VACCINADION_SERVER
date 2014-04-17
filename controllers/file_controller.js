@@ -36,7 +36,7 @@ exports.index = function(req, res) {
 };
 
 exports.post = function(req, res) {
-	console.log('路径'+process.execPath);
+	//console.log('路径'+process.execPath);
 	var gm = require('gm')
 	, imageMagick = gm.subClass({
 		imageMagick : true
@@ -69,10 +69,9 @@ exports.post = function(req, res) {
 			.autoOrient()
 			.write( newPath, function(err) {
 				if (err) {
-					console.log(err);
-					return   res.end();
+					//console.log(err);
+					return   res.end(err);
 				}
-				console.log('-----'+settings.imgWeb+ tName);
 				fs.unlink(path, function() {
 					return res.send( { 
 						'code' : 3,

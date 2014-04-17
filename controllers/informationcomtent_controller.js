@@ -35,7 +35,6 @@ module.exports = {
 					'success' :  true,
 					'items' : items
 				});
-			 console.log('aaa');
 		});
 
 	},
@@ -63,11 +62,6 @@ module.exports = {
 		var params = _.pick(req.body, 'id','information_id', 'sort','comtent','style','img_url');
 		 
 		var t=req.body;
-		console.log('-----------');
-		for(var i in t){
-			console.log(i+'  t:'+t[i]);
-		}
-		console.log('===============');
 		if(params.id == ''){
 			req.models.informationcomtent.create(params, function(err, informationcomtent) {
 				if (err) {
