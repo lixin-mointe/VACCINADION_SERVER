@@ -12,9 +12,10 @@ var settings = {
 	    password : "mointe",
 	    timezone : "zh"
   },
-  tmproot		:'/public/temp', //上传临时目录
-  imgroot 		:'/public/img', //图片存储目录
-  log 			:'/public/error.log'//程序错误日志，记录
+  tmproot		:'/public/images/tmp', //上传临时目录
+  imgroot 		:'./public/images/', //图片存储目录
+  log 			:'/public/error.log',//程序错误日志，记录
+  imgWeb		:'http://192.168.1.109:3000/images/'
 
 };
 

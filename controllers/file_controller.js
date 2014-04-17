@@ -3,7 +3,7 @@
  */
 
 var fs = require('fs');
-
+var settings    = require('../config/settings');
 function getDate(date) {
 	var Y = date.getFullYear();
 	var M = date.getMonth() + 1;
@@ -63,7 +63,7 @@ exports.post = function(req, res) {
 	} else {
 			var tName=req.files.file.path.split('\\');
 			tName=tName[tName.length-1];
-			var newPath = "./public/images/" + tName;			
+			var newPath = settings.imgroot + tName;			
 			imageMagick(path)
 			.resize(250, 250, '!') // 加('!')强行把图片缩放成对应尺寸150*150！
 			.autoOrient()
@@ -72,10 +72,11 @@ exports.post = function(req, res) {
 					console.log(err);
 					return   res.end();
 				}
+				console.log('-----'+settings.imgWeb+ tName);
 				fs.unlink(path, function() {
 					return res.send( { 
 						'code' : 3,
-						'fname' : tName 
+						'fname' : settings.imgWeb+ tName 
 					});
 					//return res.end({code:3,fname:tName});
 				});

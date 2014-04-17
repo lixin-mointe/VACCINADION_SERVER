@@ -15,7 +15,7 @@ module.exports = function (app) {
     app.use(partials());
    /* console.log("```````__dirname:"+__dirname);
     console.log("当前执行的工作目录,",process.cwd());*/
-    app.use(express.bodyParser({uploadDir:  process.cwd()+'/public/images/tmp' ,keepExtensions: true}));
+    app.use(express.bodyParser({uploadDir:  process.cwd()+settings.tmproot ,keepExtensions: true}));
     app.use(express.methodOverride());
     app.use(function (req, res, next) {
       models(function (err, db) {

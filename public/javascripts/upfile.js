@@ -85,8 +85,10 @@ function upFile(fromNmae){
 				$imgerr.removeClass().addClass('text-error');
  				$imgerr.text("上传成功");
 				$imgload.hide();
-				$imgform.find("#img").attr('src','http://127.0.0.1:3000/images/'+res.fname);
-				$imgform.find('#img_url').attr('value','http://127.0.0.1:3000/images/'+res.fname);
+				//alert($imgform.find("#img").attr('src'));
+				$imgform.find("#img").attr('src',res.fname);
+				//alert($imgform.find("#img").attr('src'));
+				$imgform.find('#img_url').attr('value',res.fname);
 				//$choosebox.text('点击选择图片');
 				//$imgform.clearForm();
 			},
