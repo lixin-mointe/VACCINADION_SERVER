@@ -93,9 +93,10 @@ module.exports = {
 				});
 	       
 	},
-	create : function(req, res, next) {
+	saveOrUpdate : function(req, res, next) {
 		 
 		var params = _.pick(req.body, 'id','title', 'sort','soures','pubilshed_date','type','level','introduction','img_url');
+		//console.log('params.id:'+params.id);
 		if(params.id==''){
 			req.models.information.create(params, function(err, information) {
 				
@@ -124,7 +125,8 @@ module.exports = {
 						});
 					 
 				};
-				console.log(information.pubilshed_date);
+			//	console.log('params.id'+params.id);
+				
 				information.id=params.id;
 				information.title=params.title; 
 				information.sort=params.sort;
@@ -134,10 +136,11 @@ module.exports = {
 				information.level=params.level;
 				information.introduction=params.introduction;
 				information.img_url=params.img_url;
-				console.log(information.pubilshed_date);
+				
+				//console.log(information.pubilshed_date);
 				
 				information.save();
-				console.log(information.pubilshed_date);
+				//console.log(information.pubilshed_date);
 			 
 				res.send( {
 						'success' : true,

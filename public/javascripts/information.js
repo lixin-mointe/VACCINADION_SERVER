@@ -4,6 +4,10 @@
 $("#template").hide();
 $("#pageTemplate").hide();
 $("#createMsg").hide();
+$("#itemRowTemplate").hide();
+$("#createItemMsg").hide();
+//明细删除
+/*$("#removeItem").hide();*/
 //总页数
 var pageSize=0;
 var pageLimit=10;
@@ -22,7 +26,14 @@ $('#c_modify').on('click',function(event){
 $('#c_submit').on('click',function(event){
 	create();
 });
-
+/*$('#saveItem').on('click',function(event){
+	saveItem();
+});*/
+ 
+/**
+ * 打开创建编辑div
+ * @param data
+ */
 function showModifyModal(data){
 	 
 		$('#modalLabel').html('资讯编辑-'+data.title);
@@ -38,10 +49,17 @@ function showModifyModal(data){
   		$('#img_url').val(data.img_url);
   		$('#modifyModal').modal('show');
 }
+/**
+ * 打开编辑提示框
+ * @param msg
+ */
 function showCreateMsg(msg){
 	$('#createMsg').find('strong').html(msg);
 	$('#createMsg').show();
 }
+/**
+ * 创建更新
+ */
 function create(){
 	//alert(1);
 		 $.ajax({
@@ -51,18 +69,6 @@ function create(){
 			  data   : $('#modifyFrom').serialize(),
  			  success: function (data, textStatus){
 			  	  if(data.success){ 
-			  		/*$('#modalLabel').html('资讯编辑-'+data.information.title);
- 			  		$('#id').val(data.information.id);
- 			  		$('#title').val(data.information.title);
-			  		$('#sort').val(data.information.sort);
-			  		$('#soures').val(data.information.soures);
-			  		$('#pubilshed_date').val(data.information.pubilshed_date);
-			  		$('#type').val(data.information.type);
-			  		$('#level').val(data.information.level);
-			  		$('#introduction').val(data.information.introduction);
-			  		$('#img').attr('src',data.information.img_url);
-			  		$('#img_url').val(data.information.img_url);
-			  		$('#createMsg').show();*/
 			  		showModifyModal(data.information);
 			  		showCreateMsg("更新成功");
 			  	  } else {
@@ -72,10 +78,6 @@ function create(){
 			  			err=err+data.errors[i]+'<br>';
 			  		}
 			  		showCreateMsg(err);
-			  		/*$('#createMsg').show();
-			  		$('#createMsg').find('strong').html(err);*/
-	 		  	  	
-			  	 // 	$('#msg').addClass('alert alert-error');
 			  	  }
 			  }
 			}); 
@@ -133,15 +135,7 @@ function modify(id){
 		var date=objDate.getDate(); 
 		var information={id:'',title:'', sort:1,soures:'',pubilshed_date:objDate. Format("yyyy-MM-dd"),type:1,level:1,introduction:'',img_url:''};
 		showModifyModal(information);
-		
-		
-		/*$('#modalLabel').html('资讯编辑');
-		var objDate=new Date();//创建一个日期对象表示当前时间
-		var year=objDate.getFullYear();
-		var month=objDate.getMonth()+1;    //getMonth返回的月份是从0开始的，因此要加1
-		var date=objDate.getDate(); 
-		$('#pubilshed_date').val(objDate. Format("yyyy-MM-dd"));
-		 $('#modifyModal').modal('show');*/
+		 
 	}
 	
 }
@@ -176,7 +170,7 @@ function views(id){
 		  processData:"false",
 		   
 		  success: function (data, textStatus){
-		  	  if(data.success){ 
+		  	  if(data.success){
 		  		
 		  		 //标题
 		  		 $('#viewsModalLabel').html('资讯 -'+data.information.title);
@@ -211,7 +205,6 @@ function views(id){
 */
 
 function initPage(pageSize,pageNum){
-	//alert(pageSize);
 	var pages= $("#pages");
 	pages.find('li').remove();
 	//首页
@@ -254,14 +247,8 @@ function initPage(pageSize,pageNum){
 			  select( $(this).html());
 			  });
 	  }
-	  var p=String(i);
-	//  row.show();
-	  row.find("a").html(p);
+	  row.find("a").html(String(i));
 	  row.appendTo($("#pages"));
-	  /*if(i>2){
-		  
-		  break ; 
-	  }*/
   }
   pages.find('li').show();
 //下一页
@@ -293,7 +280,10 @@ function initPage(pageSize,pageNum){
 };
  	 
 
-
+/**
+ * 查询
+ * pageNum 查询的页码
+ */
 function select(pageNum){ 
 	this.pageNum=pageNum;
 	var data={};
@@ -327,7 +317,13 @@ function select(pageNum){
 		  	  }
 		  }
 		});
-};
+}
+
+/**
+ * 添加列表行
+ * @param id
+ * @param date
+ */
 function addRow(id ,date){
 	var row = $("#template").clone();  
 	row.find("#removeId").click(function(){
@@ -339,7 +335,9 @@ function addRow(id ,date){
 	row.find("#viewsId").click(function(){
 		views(date.id);
 		  }); 
-	
+	row.find("#itemId").click(function(){
+		modifyItem(date.id);
+		  }); 
 	
 	row.find("#list_title").text(date.title); 
 	row.find("#list_soures").text(date.soures); 
@@ -357,4 +355,185 @@ function addRow(id ,date){
 //	offset=offset+1;
 	//alert();
 }
- 
+
+
+/**
+ * 打开明细 div
+ * @param pid
+ */
+
+function modifyItem (pid){
+	 $.ajax({
+		  type: "get",
+		  url: '/informationcomtents/'+pid,
+		  processData:"false",
+		  success: function (data){
+			/*  for(var i in data){
+				  alert(i+':'+data[i]);
+			  }*/
+		  	  if(data.success){
+		  	//	modalItemBody
+		  	 	$("#modalItemBody").empty();
+ 		  	//	 $("#item"+itemId).remove(); 
+		  	 	
+		  		$.each(data.items, function(i, n){ 
+		  			addItem(n.id,n.comtent,n.style,n.img_url,n.sort,n.information_id);
+		  		}); 
+		  		addItem('','','','','',pid);
+		  	  }
+		  } 
+	 });
+	$('#modifyModalItem').modal('show');
+	
+}
+
+/**
+ *  添加 item 显示
+ * @param itemId
+ * @param comtent
+ * @param style
+ * @param img
+ * @param sort
+ * @param pid
+ */
+function addItem(itemId ,comtent, style,img_url,sort,pid){
+	var row = $("#itemRowTemplate").clone();
+	 
+	row.appendTo($("#modalItemBody"));
+	row.find("#removeItem").click(function(){
+		removeItem(itemId);
+	});
+	row.find("#saveItem").click(function(){
+		saveItem(itemId);
+	});
+	row.find("#sort").attr('value',sort); 
+ 	row.find("#comtent").attr('value',comtent); 
+	row.find("#style").attr('value',style); 
+	row.find("#img").attr('src',img_url);
+	row.find("#img_url").attr('value',img_url);
+	row.find("#id").attr('value',itemId); 
+	row.find("#information_id").attr('value',pid); 
+	row.find("#modifyItemFrom").attr('id','modifyItemFrom'+itemId); 
+	row.attr('id','item'+itemId); 
+	if(itemId==''){
+		row.find("#removeItem").hide();
+	}
+	row.find('#choosebox').click(function(){
+		row.find('#file').click();
+	});
+	row.find('#file').change(function(){
+		
+		row.find('#choosebox').text(row.find('#file').val()); 
+	});
+	//注册上传
+	row.find('#uploadItem').click(function(){
+		var $imgform = $("#modifyItemFrom"+itemId);
+		var $imgerr = $imgform.find('#imgerr');
+		var $imgload = $imgform.find('#imgload');
+		if (!$imgform.find("#file").val()) {
+			$imgerr.removeClass().addClass('text-error');
+			$imgerr.text('请选择文件！');
+	 		return false;
+		}
+		$imgerr.text('');
+		$imgload.show();
+		$imgform.attr('enctype','multipart/form-data');
+		$imgform.ajaxForm({
+			url: '/fileUpload',
+			type: 'POST',
+				success: function (res, status, xhr, $form) {
+				var tp;
+				if (!res) tp = '异常错误！可能不支持该格式的图片。';
+				else if (res == '1') tp = '图片大小不得超过2m！';
+				else if (res == '2') tp = '文件类型必须是图片！';
+				else if (res.code == '3') ;//window.location.reload(true);
+				else  tp = res;
+				$imgerr.removeClass().addClass('text-error');
+ 				$imgerr.text("上传成功");
+				$imgload.hide();
+				$imgform.find("#img").attr('src','http://127.0.0.1:3000/images/'+res.fname);
+				$imgform.find('#img_url').attr('value','http://127.0.0.1:3000/images/'+res.fname);
+				//$choosebox.text('点击选择图片');
+				//$imgform.clearForm();
+			},
+			error: function (res, status, e) {
+				//alert(e);
+				$imgerr.text(e);
+				$imgload.hide();
+				//$imgform.clearForm();
+			}
+		});
+		 
+	});
+	
+	//注册上传 end
+	row.show();
+}
+
+/**
+ * 删除 item
+ * @param itemId
+ */
+function removeItem(itemId){
+	 $.ajax({
+		  type: "get",
+		  url: '/informationcomtent/remove/'+itemId,
+		  processData:"false",
+		  success: function (data){
+		  	  if(data.success){
+		  		 $("#item"+itemId).remove(); 
+		  	  }else{
+		  		  
+		  	  }
+		  } 
+	 });
+	
+}
+
+/**
+ * 保存
+ * @param itemId
+ */
+function saveItem(itemId){
+	if(undefined == itemId){
+		itemId='';
+	}
+	 
+	// alert( $('#modifyItemFrom'+itemId).text);
+	$.ajax({
+		  type: "post",
+		  url: '/informationcomtent',
+		  processData:"false",
+		  data   : $('#modifyItemFrom'+itemId).serialize(),
+		  success: function (data, textStatus){
+			 
+		  	  if(data.success){ 
+		  		$('#item'+itemId).find("#sort").attr('value',data.informationcomtent.sort); 
+		  		$('#item'+itemId).find("#comtent").attr('value',data.informationcomtent.comtent); 
+		  		$('#item'+itemId).find("#style").attr('value',data.informationcomtent.style); 
+		  		$('#item'+itemId).find("#img").attr('src',data.informationcomtent.img_url);
+		  		$('#item'+itemId).find("#img_url").attr('value',data.informationcomtent.img_url);
+		  		showCreateItemMsg("更新成功");
+		  		if(itemId==''){
+		  			modifyItem(data.informationcomtent.information_id);
+		  		}
+		  	  } else {
+		  		  var err='';
+		  		for(var i in data.errors){
+		  			//alert(i+":"+data.errors[i]);
+		  			err=err+data.errors[i]+'<br>';
+		  		}
+		  		showCreateItemMsg(err);
+		  	  }
+		  }
+		}); 
+	 
+}
+/**
+ * 打开编辑提示框
+ * @param msg
+ */
+function showCreateItemMsg(msg){
+	$('#createItemMsg').find('strong').html(msg);
+	$('#createItemMsg').show();
+}

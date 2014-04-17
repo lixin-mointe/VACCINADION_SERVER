@@ -77,7 +77,7 @@
 				</tr>
 
 				 <tr id='template' class="">
-				 	<th id="itemid" class="text-center"> 
+				 	<th   class="text-center"> 
 						<a href="#" id='modifyId'>
 							<span class="glyphicon glyphicon-pencil">&nbsp;</span>
 						</a>
@@ -86,6 +86,9 @@
 						</a>
 						<a href="#" id='viewsId'>
 							<span class="glyphicon glyphicon-search">&nbsp;</span>
+						</a>
+						<a href="#" id='itemId'>
+							<span class="glyphicon glyphicon-save">&nbsp;</span>
 						</a>
 						 
 				 	 </th>
@@ -232,17 +235,18 @@
 								 <div class="input-group">
 								  <span class="input-group-addon">图片</span>
 								  <img id='img' name='img' src="" alt="">
-								  		<input type="hidden" id='img_url' name='img_url' value='' >
-								  		<input type="hidden" id='id' name='id' value='' >
+								  <input type="hidden" id='img_url' name='img_url' value='' >
+								  <input type="hidden" id='id' name='id' value='' >
 								  </div>
  								<div class="input-group">
 								  <span class="input-group-addon">图片</span>
 								   
 								  <div id="choosebox" class="ellipsis">点击选择图片</div>
 								  		
- 									    <input class="hide" type="file" id="file" name="img" />
- 									    <button class="btn" id="upload">上传</button>
-									    <div class="form-actions">
+ 									    <input class="hide" type="file" id="file" name="file" />
+ 									    <button   id='upload'   class="btn"  >上传</button>
+ 									    
+ 									    <div class="form-actions">
  									      <span id="imgerr"></span>
 									      <img class="hide" id="imgload" height="14px" width="14px" src="/images/loading.gif">
 									    </div>
@@ -260,8 +264,76 @@
 					    </form> 
 					  </div><!-- /.modal-dialog -->
 					</div><!-- /.modal -->
+				<!-- 创建  end-->
+    		    <!-- 明细创建 -->
 				
-    		
+  				   <div class="modal fade" id="modifyModalItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					  <div class="modal-dialog">
+					  	
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					        <h4 class="modal-title" id="modalLabel">编辑</h4>
+					      </div>
+					 
+					      <div class="modal-body" id='modalItemBody'>
+						      
+									  
+								 
+					      </div>
+					      <div id='itemRowTemplate'  class="row">
+ 					      			 <form id='modifyItemFrom' action="" method="post"    enctype="multipart/form-data">
+										  <div   class="col-sm-6 col-md-4">
+										    <div  class="thumbnail">
+										      <div class="input-group">
+										      	<img id='img' name='img' src='' data-src="holder.js/300x200" alt="">
+										      	<input type="hidden" id='id' name='id' value='' >
+										      	<input type="hidden" id='img_url' name='img_url' value='' >
+										      	<input type="hidden" id='information_id' name='information_id' value='' >
+										      </div>
+										      <div class="input-group">
+												  <span id="choosebox" class="input-group-addon">点击选择图片</span>
+												   <input  type="file" class="hide"   id="file" name="file" />
+												    <button  id='uploadItem'   class="btn"  >上传</button>
+				 							  </div> 
+				 							  <div class="input-group">
+				 							  		<div class="form-actions">
+				 									      <span id="imgerr"></span>
+													      <img class="hide" id="imgload" height="14px" width="14px" src="/images/loading.gif">
+													 </div>
+				 							  </div>
+										      <div class="input-group">
+										      	 <div class="input-group">
+												  <label>排序</span>
+												  <input type="text" id='sort' name='sort' value=''>
+												</div>
+												<div class="input-group">
+												  <label  >显示样式</label>
+												  <input type="text" id='style' name='style' value=''>
+												</div
+											 	<div class="input-group">
+												  <label  >内容</label>
+												  <input type="text" id='comtent' name='comtent' value=''>
+												</div
+										         
+										        <p><a id='removeItem' href="#" class="btn btn-primary" role="button">删除</a> 
+										        	<a id='saveItem' href="#" class="btn btn-primary" role="button">保存</a>
+										        </p>
+										      </div>
+										    </div>
+										  </div>
+									</from>
+							</div>
+					      <div class="modal-footer">
+					      	<div id='createItemMsg' class="alert alert-warning alert-dismissable">
+ 							  <strong></strong> 
+							</div>
+					        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+ 					      </div>
+					    </div><!-- /.modal-content -->
+ 					  </div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+				<!-- 创建  end-->
   	
 
 <script src="/javascripts/jquery-2.1.0.js"></script>

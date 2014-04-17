@@ -42,26 +42,26 @@ exports.post = function(req, res) {
 		imageMagick : true
 	});
 	//res.header('Content-Type', 'json');
-	console.log(1111111111111);
+	//console.log(1111111111111);
    
 	var t=req.files;
 	//console.log(t);
 	 
-	var path = req.files.img.path;
+	var path = req.files.file.path;
 	// 获取用户上传过来的文件的当前路径
-	var sz = req.files.img.size;
-	console.log('sz:' + sz + '  ' + 2 * 1024 * 1024);
+	var sz = req.files.file.size;
+	//console.log('sz:' + sz + '  ' + 2 * 1024 * 1024);
 
 	if (sz > 2* 1024 * 1024) {
 		fs.unlink(path, function() { // fs.unlink 删除用户上传的文件
 			res.end('1');
 		});
-	} else if (req.files.img.type.split('/')[0] != 'image') {
+	} else if (req.files.file.type.split('/')[0] != 'image') {
 		fs.unlink(path, function() {
 			res.end('2');
 		});
 	} else {
-			var tName=req.files.img.path.split('\\');
+			var tName=req.files.file.path.split('\\');
 			tName=tName[tName.length-1];
 			var newPath = "./public/images/" + tName;			
 			imageMagick(path)

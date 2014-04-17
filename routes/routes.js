@@ -17,12 +17,14 @@ module.exports = function (app) {
  // 根据id获取	GET  	
   app.get( '/information/:information_id'   ,controllers.information.get);
  // 创建	POST	
-  app.post( '/information',controllers.information.create);
+  app.post( '/information',controllers.information.saveOrUpdate);
  // 删除	DELETE	
   app.get ( '/information/remove/:information_id',controllers.information.remove);
- // 更新或创建	PUT 	
-  app.put( '/information',controllers.information.get);
+ 
   app.post( '/fileUpload',controllers.file.post);
  
-
+  //明细列表
+  app.get(  '/informationcomtents/:pid' ,controllers.informationcomtent.list);
+  app.get ( '/informationcomtent/remove/:itemId',controllers.informationcomtent.remove);
+  app.post( '/informationcomtent',controllers.informationcomtent.saveOrUpdate);
 };
