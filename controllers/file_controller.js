@@ -4,7 +4,7 @@
 
 var fs = require('fs');
 var settings    = require('../config/settings');
-function getDate(date) {
+function getDatetime(date) {
 	var Y = date.getFullYear();
 	var M = date.getMonth() + 1;
 	if (M < 10)
@@ -23,7 +23,17 @@ function getDate(date) {
 		s = '0' + s;
 	return (Y + '-' + M + '-' + D + ' ' + h + ':' + m + ':' + s);
 }
-
+function getDate() {
+	var date=new Date();
+	var Y = date.getFullYear();
+	var M = date.getMonth() + 1;
+	if (M < 10)
+		M = '0' + M;
+	var D = date.getDate();
+	if (D < 10)
+		D = '0' + D;
+	return (Y + '-' + M + '-' + D);
+}
 exports.index = function(req, res) {
 	// 获取user文件夹里的所有文件名
 	fs.readdir('./public/images', function(err, files) {
@@ -63,7 +73,18 @@ exports.post = function(req, res) {
 	} else {
 			var tName=req.files.file.path.split('\\');
 			tName=tName[tName.length-1];
-			var newPath = settings.imgroot + tName;			
+			//需添加按时创建目录
+			var newPath = settings.imgroot+getDate();
+			//console.log('newPath:'+newPath);
+			if (fs.existsSync(newPath)) {
+	           // console.log('已经创建过此更新目录了');
+		    } else {
+				 fs.mkdirSync(newPath);
+				// console.log('更新目录已创建成功\n');
+			 }
+			
+			newPath = newPath +'/'+ tName;	
+			//console.log('newPath:'+newPath);
 			imageMagick(path)
 			.resize(250, 250, '!') // 加('!')强行把图片缩放成对应尺寸150*150！
 			.autoOrient()
@@ -75,7 +96,7 @@ exports.post = function(req, res) {
 				fs.unlink(path, function() {
 					return res.send( { 
 						'code' : 3,
-						'fname' : settings.imgWeb+ tName 
+						'fname' : settings.imgWeb+getDate()+'/' +tName 
 					});
 					//return res.end({code:3,fname:tName});
 				});

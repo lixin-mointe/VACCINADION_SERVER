@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="utf-8">
+    <title><%=title%></title>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+  </head>
+ 
+    <body screen_capture_injected="true">
+    <div class="panel panel-default">
+   		 反馈 测试<p ID='msg'></p>
+   		 <button type="button" onclick='createInformationfeedback();' class="btn btn-default"  >反馈 测试</button>
+   		   
+   	</div>
+   	
+<script src="/javascripts/jquery-2.1.0.js"></script>
+<script src="/javascripts/jquery.json-2.4.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>  
+<script >
+function createInformationfeedback(){
+	//alert(1);
+		 $.ajax({
+			  type: "post",
+			  url: '/informationfeedback',
+			  processData:"false",
+			  data   :{ comtent:'cm', contact:'cn',app_version:'version',create_date:'2011-01-01 00:00:00'},
+ 			  success: function (data, textStatus){
+ 			  		 
+			  	  if(data.success){ 
+			  		  
+			  		alert(JSON.stringify(data.informationfeedback)
+			  		);
+			  		
+			  	  } else {
+			  		  var err='';
+			  		for(var i in data.errors){
+			  			//alert(i+":"+data.errors[i]);
+			  			err=err+data.errors[i]+'<br>';
+			  		}
+			  		showCreateMsg(err);
+			  	  }
+			  }
+			}); 
+	 
+}
+</script>
+</body> 
+</html>

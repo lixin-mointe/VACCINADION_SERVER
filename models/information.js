@@ -30,7 +30,10 @@ module.exports = function (orm, db) {
   {
     hooks: {
       beforeValidation: function () {
-        this.pubilshed_date = new Date();
+    	  if(this.pubilshed_date ==''){
+    		  this.pubilshed_date = new Date();
+    	  }
+        
       }
     },
     validations: {

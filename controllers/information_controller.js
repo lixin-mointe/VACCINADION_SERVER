@@ -165,10 +165,18 @@ module.exports = {
 						'err' : err
 					});
 			};
-			res.send( {
+			if(undefined == information){
+				res.send( {
+					'success' : false,
+					'err'   : 'not id'
+				});
+			}else{
+				res.send( {
 					'success' : true,
 					'information'   : information.serialize()
 				});
+			}
+			 
 		});
 	},
 	remove : function(req, res, next) {
