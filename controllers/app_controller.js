@@ -8,9 +8,13 @@ var common = require('../node_modules/sql-query/test/common.js');
 
 module.exports = {
 	get : function(req, res, next) {
+		console.log('appVersion get');
 		//'{ __sql: [["version = ?", ["(SELECT MAX(id) from appVersion)"]]] }'
-		req.models.appversion.find().where(' version= (SELECT MAX(id) from appversion) ') 
+		req.models.appversion.find().where(' version= (SELECT MAX(version) from appversion) ') 
 				 .all(function(err, appversion) {
+					 if(err){
+						 console.log('appVersion err:'+err);
+					 }
 					  	appversion.map(function(m) {
 						// console.log(m.serialize());
 					  		v=m.serialize();
@@ -25,10 +29,6 @@ module.exports = {
 								res.write(r);
 								res.end(); 
 						}); 
-					 
-					 
-					 
-					
 				});
 		
 		
