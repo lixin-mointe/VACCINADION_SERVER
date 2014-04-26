@@ -1,7 +1,7 @@
 /*
  * GET home page.
  */
-
+var logger = require('../config/log4js').logger('file_controller');
 var fs = require('fs');
 var settings    = require('../config/settings');
 function getDatetime(date) {

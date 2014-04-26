@@ -4,7 +4,7 @@
 var _ = require('lodash');
 var helpers = require('./_helpers');
 var orm = require('orm');
-
+var logger = require('../config/log4js').logger('informationcomtent_controller');
 module.exports = {
 	list : function(req, res, next) {
 		
@@ -21,10 +21,12 @@ module.exports = {
 			'information_id' : req.params.pid
 		}).order(['sort']).all(function(err, informationcomtents) {
 			if (err) {
+				logger.error(err);
 				res.send( { 
 					'success' : false ,
 					 'err':err
 				});
+				req.db.close();
 				//return next(err);
 			}
 			var items = informationcomtents.map(function(m) {
@@ -35,6 +37,7 @@ module.exports = {
 					'success' :  true,
 					'items' : items
 				});
+			 req.db.close();
 		});
 
 	},
@@ -47,6 +50,7 @@ module.exports = {
 		}
 		req.models.informationcomtent.find({ 'id': req.params.itemId }).remove(function (err) {
 			if (err) {
+				logger.error(err);
 				 res.send( { 
 						'success' : false,
 						'err' : err
@@ -56,6 +60,7 @@ module.exports = {
 			 res.send( { 
 					'success' : true
 				});
+			 req.db.close();
 		}); 
 	},
 	saveOrUpdate : function(req, res, next) {
@@ -65,6 +70,7 @@ module.exports = {
 		if(params.id == ''){
 			req.models.informationcomtent.create(params, function(err, informationcomtent) {
 				if (err) {
+					logger.error(err);
 					if (Array.isArray(err)) {
 						return res.send(200, {
 							errors : helpers.formatErrors(err)
@@ -77,11 +83,13 @@ module.exports = {
 					'success' : true,
 					'informationcomtent'    : informationcomtent.serialize()
 				});
+				req.db.close();
 			});
 		}else{
 			
 			req.models.informationcomtent.get(params.id ,function (err,informationcomtent) {
 				if (err) {
+					logger.error(err);
 					 res.send( { 
 							'success' : false,
 							'err' : err
@@ -100,6 +108,7 @@ module.exports = {
 						'success' : true,
 						'informationcomtent'    : informationcomtent.serialize()
 					});
+				req.db.close();
 			});
 		}
 	},

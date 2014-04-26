@@ -4,6 +4,7 @@
 var _ = require('lodash');
 var helpers = require('./_helpers');
 var orm = require('orm');
+var logger = require('../config/log4js').logger('informationfeedback_controller');
 
 module.exports = {
 	list : function(req, res, next) {
@@ -29,6 +30,7 @@ module.exports = {
 		req.models.informationfeedback.find().where(query).limit(parseInt(limit)).offset(offset)
 				.order(order).all(function(err, informations) {
 					if (err) {
+						logger.error(err);
 						return next(err)
 					}
 					var items = informations.map(function(m) {
@@ -47,6 +49,7 @@ module.exports = {
 								'pageNum' : req.params.pageNum,
 								'pageLimit':limit
 							});
+						 req.db.close();
 						});
 				});
 
@@ -60,6 +63,7 @@ module.exports = {
 		}
 		req.models.informationfeedback.find({ 'id': req.params.id }).remove(function (err) {
 			if (err) {
+				logger.error(err);
 				 res.send( { 
 						'success' : false,
 						'err' : err
@@ -69,6 +73,7 @@ module.exports = {
 			 res.send( { 
 					'success' : true
 				});
+			 req.db.close();
 		}); 
 	},
 	save : function(req, res, next) {
@@ -80,18 +85,18 @@ module.exports = {
 		 
 			req.models.informationfeedback.create(params, function(err, informationfeedback) {
 				if (err) {
-					if (Array.isArray(err)) {
-						return res.send(200, {
-							errors : helpers.formatErrors(err)
+					logger.error(err);
+						return res.send(500,{
+							'success' : false,
+							 errors   : helpers.formatErrors(err)
 						});
-					} else {
-						return next(err);
-					}
+				 
 				}
 				res.send( {
 					'success' : true,
 					'informationfeedback'    : informationfeedback.serialize()
 				});
+				req.db.close();
 			});
 		 
 	},
@@ -104,6 +109,7 @@ module.exports = {
 		}
  		req.models.informationfeedback.get( req.params.id ,function (err,informationfeedback) {
 			if (err) {
+				logger.error(err);
 				 res.send( { 
 						'success' : false,
 						'err' : err
@@ -114,11 +120,13 @@ module.exports = {
 					'success' : false,
 					'err' : 'not id'
 				});
+				req.db.close();
 			}else{
 				res.send( {
 					'success' : true,
 					'informationfeedback'   : informationfeedback.serialize()
 				});
+				req.db.close();
 			}
 			
 		});

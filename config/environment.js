@@ -4,7 +4,7 @@ var settings = require('./settings');
 var models   = require('../models/');
 var  partials = require('express-partials');
 module.exports = function (app) {
-  app.configure(function () {
+    app.configure(function () {
 	//设置 ejs映射 html 文件
 	app.set('view engine', 'html');
 	app.engine('.html', require('ejs').__express);

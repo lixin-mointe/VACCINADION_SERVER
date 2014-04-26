@@ -5,15 +5,15 @@ var _ = require('lodash');
 var helpers = require('./_helpers');
 var orm = require('orm');
 var common = require('../node_modules/sql-query/test/common.js');
-
+var logger = require('../config/log4js').logger('app_controller');
 module.exports = {
 	get : function(req, res, next) {
-		console.log('appVersion get');
-		//'{ __sql: [["version = ?", ["(SELECT MAX(id) from appVersion)"]]] }'
+ 		//'{ __sql: [["version = ?", ["(SELECT MAX(id) from appVersion)"]]] }'
 		req.models.appversion.find().where(' version= (SELECT MAX(version) from appversion) ') 
 				 .all(function(err, appversion) {
 					 if(err){
-						 console.log('appVersion err:'+err);
+						// console.log('appVersion err:'+err);
+						 logger.error(err);
 					 }
 					  	appversion.map(function(m) {
 						// console.log(m.serialize());
@@ -28,6 +28,7 @@ module.exports = {
 							 
 								res.write(r);
 								res.end(); 
+								req.db.close();
 						}); 
 				});
 		

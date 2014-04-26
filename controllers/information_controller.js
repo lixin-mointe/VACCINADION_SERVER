@@ -5,8 +5,7 @@ var _ = require('lodash');
 var helpers = require('./_helpers');
 var orm = require('orm');
 var common = require('../node_modules/sql-query/test/common.js');
- 
-
+var logger = require('../config/log4js').logger('information_controller');
 
 module.exports = {
 		 
@@ -18,6 +17,7 @@ module.exports = {
 			//success : req.flash('success').toString(),
 			//error : req.flash('error').toString()
 		});
+		req.db.close();
 	},
 	modifyInit : function(req, res, next) {
 		res.render('information/information_modify.html', {
@@ -26,6 +26,7 @@ module.exports = {
 			//success : req.flash('success').toString(),
 			//error : req.flash('error').toString()
 		});
+		req.db.close();
 	},
 	list : function(req, res, next) {
 		/**
@@ -63,6 +64,7 @@ module.exports = {
 				parseInt(limit)).offset(offset)
 				.order(order).all(function(err, informations) {
 					if (err) {
+						logger.error(err);
 						return next(err)
 					}
 					;
@@ -74,6 +76,7 @@ module.exports = {
 					 req.models.information.count(query ,function (err, count){	
 						var pageSize= Math.ceil(count/limit) ;
 						if (err) {
+							logger.error(err);
 							return next(err)
 						}
 						
@@ -89,6 +92,7 @@ module.exports = {
 								'pageNum' : req.params.pageNum,
 								'pageLimit':limit
 							});
+						 req.db.close();
 						});
 				});
 	       
@@ -102,11 +106,13 @@ module.exports = {
 				
 				if (err) {
 					if (Array.isArray(err)) {
+						logger.error(err);
 						//console.log(helpers.formatErrors(err));
 						return res.send(200, {
 							errors : helpers.formatErrors(err)
 						});
 					} else {
+						logger.error(err);
 						return next(err);
 					}
 				}
@@ -114,11 +120,13 @@ module.exports = {
 					'success' : true,
 					'information'    : information.serialize()
 				});
+				req.db.close();
 			//	return res.send(200, information.serialize());
 			});
 		}else{
 			req.models.information.get(params.id ,function (err,information) {
 				if (err) {
+					logger.error(err);
 					 res.send( { 
 							'success' : false,
 							'err' : err
@@ -146,6 +154,7 @@ module.exports = {
 						'success' : true,
 						'information'    : information.serialize()
 					});
+				req.db.close();
 			});
 		}
 		
@@ -157,9 +166,11 @@ module.exports = {
 				'success' : false,
 				'err' : 'not id'
 			}); 
+			req.db.close();
 		}
  		req.models.information.get( req.params.information_id ,function (err,information) {
 			if (err) {
+				logger.error(err);
 				 res.send( { 
 						'success' : false,
 						'err' : err
@@ -176,7 +187,7 @@ module.exports = {
 					'information'   : information.serialize()
 				});
 			}
-			 
+			req.db.close();
 		});
 	},
 	remove : function(req, res, next) {
@@ -189,6 +200,7 @@ module.exports = {
 		}
 		req.models.information.find({ 'id': req.params.information_id }).remove(function (err) {
 			if (err) {
+				logger.error(err);
 				 res.send( { 
 						'success' : false,
 						'err' : err
@@ -198,6 +210,7 @@ module.exports = {
 			 res.send( { 
 					'success' : true
 				});
+			 req.db.close();
 		}); 
 	}
 };

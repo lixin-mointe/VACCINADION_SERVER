@@ -12,12 +12,13 @@ var environment = require('./config/environment');
 var routes      = require('./routes/routes');
 //数据模型
 var models      = require('./models/');
-
+//日志记录 
+var log4js      = require('./config/log4js');
 module.exports.start = function (done) {
   var app = express();
   environment(app);
   routes(app);
-
+  log4js(app);
   app.listen(settings.port, function () {
     console.log( ("Listening on port " + settings.port).green );
 
@@ -25,6 +26,8 @@ module.exports.start = function (done) {
       return done(null, app, server);
     }
   }).on('error', function (e) {
+	  
+	  log4js.logger('server').error('err:'+e);
     if (e.code == 'EADDRINUSE') {
       console.log('Address in use. Is the server already running?'.red);
     }
